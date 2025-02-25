@@ -38,12 +38,16 @@ export default async function handler(
     const homeDir = os.homedir();
     
     try {
-      // Launch PTY process
+      // Get the project directory from the socket data or use home directory as fallback
+      const socketData = socket.handshake.query;
+      const projectDir = socketData.projectDirectory as string || homeDir;
+      
+      // Launch PTY process with project directory as working directory
       const pty = spawn(shell, [], {
         name: 'xterm-color',
         cols: 80,
         rows: 30,
-        cwd: homeDir,
+        cwd: projectDir,
         env: process.env as Record<string, string>
       });
       

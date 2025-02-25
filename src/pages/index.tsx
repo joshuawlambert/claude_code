@@ -28,6 +28,17 @@ export default function Home() {
           // Directory exists, load it
           setProjectDirectory(lastDirectory);
           setShowDirectorySelector(false);
+          
+          // Initialize file watcher for this directory
+          axios.get('/api/fileWatcher', {
+            params: { directory: lastDirectory }
+          })
+          .then(response => {
+            console.log('File watcher initialized', response.data);
+          })
+          .catch(error => {
+            console.error('Error initializing file watcher:', error);
+          });
         }
       })
       .catch(error => {
@@ -77,6 +88,33 @@ export default function Home() {
     // Listen for both events for backward compatibility
     window.addEventListener('file-created', refreshFiles);
     window.addEventListener('file-modified', refreshFiles);
+    
+    // Connect to the file watcher socket.io namespace
+    if (projectDirectory) {
+      import('socket.io-client').then(({ io }) => {
+        const socket = io('/file-watcher', {
+          path: '/api/socket'
+        });
+        
+        socket.on('connect', () => {
+          console.log('Connected to file watcher');
+        });
+        
+        socket.on('file-change', (data) => {
+          console.log('File change detected:', data);
+          refreshFiles();
+        });
+        
+        socket.on('watcher-error', (error) => {
+          console.error('File watcher error:', error);
+        });
+        
+        // Clean up the socket connection when component unmounts
+        return () => {
+          socket.disconnect();
+        };
+      });
+    }
     
     return () => {
       window.removeEventListener('file-created', refreshFiles);
@@ -156,6 +194,17 @@ export default function Home() {
     
     // Save the directory to localStorage for next time
     localStorage.setItem('lastProjectDirectory', directory);
+    
+    // Initialize file watcher for this directory
+    axios.get('/api/fileWatcher', {
+      params: { directory }
+    })
+    .then(response => {
+      console.log('File watcher initialized', response.data);
+    })
+    .catch(error => {
+      console.error('Error initializing file watcher:', error);
+    });
   };
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {

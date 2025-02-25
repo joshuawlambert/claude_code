@@ -25,9 +25,12 @@ const Term = () => {
         // First initialize the websocket server
         await fetch('/api/terminal');
         
-        // Then connect to it
+        // Then connect to it and pass the project directory
         const socket = io('/terminal', {
-          path: '/api/socket'
+          path: '/api/socket',
+          query: {
+            projectDirectory: localStorage.getItem('lastProjectDirectory') || ''
+          }
         });
         socketRef.current = socket;
 
