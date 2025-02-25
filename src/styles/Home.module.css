@@ -1,0 +1,224 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 250px 1fr 350px;
+  grid-template-rows: 100%;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* Resize handles */
+.resizeHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: transparent;
+  cursor: col-resize;
+  z-index: 20;
+  transition: background-color 0.2s;
+}
+
+.resizeHandle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.resizeHandle:active {
+  background-color: #0078d4;
+}
+
+/* Ensure resize handle is always available */
+.layout::before,
+.layout::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: transparent;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.sidebar {
+  background-color: #252526;
+  color: #fff;
+  overflow-y: auto;
+  border-right: 1px solid #1e1e1e;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebarTitle {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #cccccc;
+}
+
+.folderButton {
+  background-color: transparent;
+  color: #cccccc;
+  border: 1px solid #555;
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.folderButton:hover {
+  background-color: #2a2d2e;
+}
+
+.editor {
+  height: 100%;
+  background-color: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+}
+
+.editorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  height: 36px;
+  background-color: #252526;
+  border-bottom: 1px solid #333;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.fileName {
+  font-size: 0.9rem;
+  color: #ddd;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.saveButton {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  height: 24px;
+  transition: background-color 0.2s;
+}
+
+.saveButton:hover {
+  background-color: #106ebe;
+}
+
+.terminal {
+  background-color: #1e1e1e;
+  border-left: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -1px 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.noFile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #1e1e1e;
+}
+
+.welcomeMessage {
+  text-align: center;
+  color: #888;
+  max-width: 500px;
+}
+
+.welcomeMessage h2 {
+  font-weight: 300;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+.welcomeMessage p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.directoryPath {
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  background-color: #2a2d2e;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #ddd;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Save indicator animation */
+.saveIndicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #0078d4;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  animation: fadeOut 2s forwards;
+  z-index: 1000;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* VS Code scrollbar styling */
+.container ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.container ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.container ::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+.container ::-webkit-scrollbar-thumb:hover {
+  background-color: #777;
+}

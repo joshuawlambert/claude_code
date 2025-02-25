@@ -1,0 +1,178 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+  position: relative;
+}
+
+.header {
+  padding: 10px 0;
+  border-bottom: 1px solid #333;
+}
+
+.title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 0;
+  padding: 0 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #cccccc;
+}
+
+.fileList {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 5px;
+}
+
+.fileItem {
+  padding: 4px 10px 4px 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  color: #cccccc;
+}
+
+.fileIcon {
+  margin-right: 4px;
+  font-size: 1rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+.fileName {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileItem:hover {
+  background-color: #2a2d2e;
+}
+
+.fileItem.active {
+  background-color: #37373d;
+}
+
+.fileItem.dragOver {
+  background-color: #0078d4;
+  color: white;
+  outline: 1px dashed #ffffff;
+}
+
+.folderGroup {
+  position: relative;
+}
+
+.folderGroup::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  bottom: 8px;
+  border-left: 1px solid #555;
+  z-index: 0;
+}
+
+.folderContents {
+  margin-left: 10px;
+}
+
+/* Context menu styles */
+.contextMenu {
+  position: fixed;
+  background-color: #252526;
+  border: 1px solid #3c3c3c;
+  border-radius: 3px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  padding: 4px 0;
+  min-width: 150px;
+  z-index: 1000;
+}
+
+.contextMenuItem {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #cccccc;
+  display: flex;
+  align-items: center;
+}
+
+.menuIcon {
+  margin-right: 8px;
+  display: inline-block;
+  width: 16px;
+  text-align: center;
+}
+
+.contextMenuItem:hover {
+  background-color: #2a2d2e;
+}
+
+.deleteMenuItem {
+  border-top: 1px solid #3c3c3c;
+  margin-top: 4px;
+  padding-top: 8px;
+  color: #f48771;
+}
+
+.deleteMenuItem:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+/* New file input styles */
+.newFileInput {
+  margin: 4px 0;
+}
+
+.newFileInput input {
+  width: calc(100% - 20px);
+  padding: 4px 6px;
+  background-color: #3c3c3c;
+  border: 1px solid #0078d4;
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.newFileInput input:focus {
+  outline: none;
+}
+
+/* Error message styles */
+.errorMessage {
+  margin: 8px;
+  padding: 8px 10px;
+  background-color: rgba(180, 0, 0, 0.2);
+  color: #f48771;
+  font-size: 0.85rem;
+  border-radius: 3px;
+  border-left: 3px solid #f48771;
+}
+
+/* VS Code specific styling */
+.container ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.container ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.container ::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 3px;
+}
+
+.container ::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}

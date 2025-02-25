@@ -1,0 +1,90 @@
+.terminal {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  background-color: #000;
+  color: #ddd;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10px;
+  cursor: text;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminalOutput {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.terminalLine {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 2px 0;
+}
+
+.terminalInputLine {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.prompt {
+  color: #0f0;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.terminalInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ddd;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  caret-color: #ddd;
+}
+
+.terminalInput:focus {
+  outline: none;
+}
+
+/* Highlight colors for different content types */
+.command {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.output {
+  color: #ddd;
+}
+
+.error {
+  color: #ff6666;
+}
+
+.success {
+  color: #66ff66;
+}
+
+.highlight {
+  color: #0f0;
+  font-weight: bold;
+}
+
+/* For a blinking cursor effect if desired */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background-color: #ddd;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+}
