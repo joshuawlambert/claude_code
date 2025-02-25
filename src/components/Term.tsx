@@ -26,8 +26,15 @@ const Term = () => {
         await fetch('/api/terminal');
         
         // Then connect to it and pass the project directory
-        const socket = io('/terminal', {
-          path: '/api/socket',
+        const socket = io({
+          path: '/api/terminal',
+          transports: ['polling'], // Use only polling for now
+          autoConnect: true,
+          reconnection: true,
+          reconnectionAttempts: 5,
+          reconnectionDelay: 1000,
+          timeout: 20000,
+          forceNew: true,
           query: {
             projectDirectory: localStorage.getItem('lastProjectDirectory') || ''
           }
@@ -78,9 +85,43 @@ const Term = () => {
           fitAddon.fit();
         }
 
-        // Handle connection
+        // Log connection state changes
         socket.on('connect', () => {
           console.log('Socket.IO connection established');
+          terminal.write('\r\nConnected to terminal server.\r\n');
+        });
+
+        socket.on('connect_error', (error) => {
+          console.error('Socket connection error:', error);
+          terminal.write('\r\nError connecting to terminal server: ' + error.message + '\r\n');
+        });
+
+        socket.on('disconnect', (reason) => {
+          console.log('Socket disconnected:', reason);
+          terminal.write(`\r\nDisconnected from terminal server: ${reason}\r\n`);
+          
+          if (reason === 'io server disconnect') {
+            // Server initiated disconnect, try reconnecting
+            socket.connect();
+          }
+        });
+
+        socket.on('reconnect', (attemptNumber) => {
+          console.log('Socket reconnected after', attemptNumber, 'attempts');
+          terminal.write('\r\nReconnected to terminal server.\r\n');
+        });
+
+        socket.on('reconnect_attempt', (attemptNumber) => {
+          console.log('Socket reconnection attempt', attemptNumber);
+        });
+
+        socket.on('reconnect_error', (error) => {
+          console.error('Socket reconnection error:', error);
+        });
+
+        socket.on('reconnect_failed', () => {
+          console.error('Socket reconnection failed');
+          terminal.write('\r\nFailed to reconnect to terminal server.\r\n');
         });
 
         // Handle terminal output
@@ -88,20 +129,9 @@ const Term = () => {
           terminal.write(data);
         });
 
-        // Handle connection error
-        socket.on('connect_error', (error: any) => {
-          console.error('Socket connection error:', error);
-          terminal.write('\r\nError connecting to terminal server.\r\n');
-        });
-
         // Handle terminal error
         socket.on('terminal-error', (error: string) => {
           terminal.write(`\r\nError: ${error}\r\n`);
-        });
-
-        // Handle disconnection
-        socket.on('disconnect', (reason: string) => {
-          terminal.write(`\r\nDisconnected from terminal server: ${reason}\r\n`);
         });
 
         // Handle terminal input

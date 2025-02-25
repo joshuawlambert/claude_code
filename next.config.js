@@ -2,14 +2,20 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-
-  // Important: This enables WebSocket connections through Next.js server
-  webSocketServer: {
-    options: {
-      // You can configure WebSocket server options here
-      path: '/api/terminal',
-    },
-  },
+  
+  // WebSocket configuration using rewrites
+  async rewrites() {
+    return [
+      {
+        source: '/api/terminal',
+        destination: '/api/terminal'
+      },
+      {
+        source: '/api/socket',
+        destination: '/api/socket'
+      }
+    ];
+  }
 }
 
 module.exports = nextConfig
