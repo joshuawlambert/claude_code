@@ -17,29 +17,117 @@ A web-based IDE inspired by Visual Studio Code, built with Next.js and TypeScrip
 
 ## Prerequisites
 
+### System Requirements
 - Node.js 18+ and npm
-- For the terminal functionality, you need to run this on Linux or use WSL on Windows
+- For the terminal functionality:
+  - Linux: Build tools and Python
+  - WSL on Windows: Ubuntu 20.04 or newer with build tools
+  - Direct Windows usage is not supported (must use WSL)
+
+### Windows Setup (WSL)
+
+1. Install WSL if you haven't already:
+```powershell
+# Open PowerShell as Administrator and run:
+wsl --install
+```
+
+2. After WSL installation completes, restart your computer
+
+3. Open Ubuntu from the Start menu or run:
+```powershell
+wsl
+```
+
+4. Once in WSL, proceed with the Linux setup instructions below
+
+### Linux/WSL Setup
+
+1. Install required system packages:
+```bash
+# Update package list
+sudo apt-get update
+
+# Install build essentials and Python
+sudo apt-get install -y build-essential python3 python3-pip
+```
+
+2. Install Node.js 18+ (if not already installed):
+```bash
+# Using nvm (recommended)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+source ~/.bashrc
+nvm install 18
+nvm use 18
+
+# Or using apt (alternative)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
 
 ## Installation
-0. linux/WSL: install claude code: https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/joshuawlambert/claude_code_ide.git
-   cd claude_code_ide
-   ```
+```bash
+git clone https://github.com/joshuawlambert/claude_code_ide.git
+cd claude_code_ide
+```
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+2. Run the setup script:
+```bash
+# Make the script executable
+chmod +x setup.sh
+
+# Run the setup script
+./setup.sh
+```
 
 3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
-5. Open your browser and navigate to `http://localhost:3000` or whichever url is listed in the terminal
+4. Open your browser and navigate to `http://localhost:3000`
+
+## Troubleshooting
+
+If you encounter any issues:
+
+1. Make sure you're running in WSL if using Windows:
+```bash
+# Check if running in WSL
+uname -a  # Should show Linux
+```
+
+2. Verify Node.js version:
+```bash
+node -v  # Should be v18.0.0 or higher
+```
+
+3. If you get build errors:
+```bash
+# Rebuild node-pty
+npm rebuild node-pty
+```
+
+4. If the terminal doesn't connect:
+- Check that you're running in WSL (not Windows directly)
+- Ensure your browser can connect to localhost:3000
+- Check the browser console for any connection errors
+
+5. Common WSL issues:
+- If you can't access the WSL terminal, try:
+  ```powershell
+  # In PowerShell (Admin):
+  wsl --shutdown
+  wsl
+  ```
+- If you need to reset WSL:
+  ```powershell
+  # In PowerShell (Admin):
+  wsl --unregister Ubuntu
+  wsl --install Ubuntu
+  ```
 
 ## Usage
 

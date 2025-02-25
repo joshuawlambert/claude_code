@@ -44,7 +44,7 @@ export default async function handler(
   
   // Create a new Socket.IO server
   const io = new SocketIOServer(res.socket.server, {
-    path: '/api/terminal',
+    path: '/api/socket.io',
     addTrailingSlash: false,
     cors: {
       origin: process.env.NODE_ENV === 'production'
@@ -53,17 +53,19 @@ export default async function handler(
       methods: ['GET', 'POST'],
       credentials: true
     },
-    transports: ['polling'],
-    pingTimeout: 60000,
-    pingInterval: 25000,
-    connectTimeout: 45000,
+    transports: ['polling', 'websocket'],
+    pingTimeout: 10000,
+    pingInterval: 5000,
+    connectTimeout: 10000,
     maxHttpBufferSize: 1e8, // 100 MB
-    allowEIO3: true
+    allowEIO3: true,
+    serveClient: false
   });
   
+  // Store the Socket.IO instance on the server object
   res.socket.server.io = io;
   
-  // Handle terminal connections directly on main namespace
+  // Handle terminal connections on the main namespace
   io.on('connection', (socket) => {
     console.log('Client connected to terminal');
     let pty: IPty | null = null;

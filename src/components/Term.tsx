@@ -27,14 +27,14 @@ const Term = () => {
         
         // Then connect to it and pass the project directory
         const socket = io({
-          path: '/api/terminal',
-          transports: ['polling'], // Use only polling for now
+          path: '/api/socket.io',
+          transports: ['polling', 'websocket'],
           autoConnect: true,
           reconnection: true,
-          reconnectionAttempts: 5,
+          reconnectionAttempts: 3,
           reconnectionDelay: 1000,
-          timeout: 20000,
-          forceNew: true,
+          timeout: 10000,
+          forceNew: false,
           query: {
             projectDirectory: localStorage.getItem('lastProjectDirectory') || ''
           }
